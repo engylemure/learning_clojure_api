@@ -2,7 +2,7 @@
 (ns todo.handler-test
   (:require [clojure.test :refer :all]
             [ring.mock.request :as mock]
-            [todoapp2.handler :refer :all]))
+            [todo.handler :refer :all]))
 
 (deftest test-app
   (testing "main route"
