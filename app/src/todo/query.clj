@@ -1,27 +1,28 @@
 (ns todo.query
+  (:refer-clojure :exclude [update])
   (:require [api.database]
             [korma.core :refer :all]))
 
-(defentity items)
+(defentity todos)
 
 (defn get-todos []
-  (select items))
+  (select todos))
 
 (defn add-todo [title description created_at]
-  (insert items
+  (insert todos
           (values {:title title :description description :created_at created_at})))
 
 (defn delete-todo [id]
-  (delete items
+  (delete todos
           (where {:id [= id]})))
 
 (defn update-todo [id title is-complete]
-  (update items
+  (update todos
           (set-fields {:title title
                        :is_complete is-complete})
           (where {:id [= id]})))
 
 (defn get-todo [id]
   (first
-    (select items
+    (select todos
           (where {:id [= id]}))))
