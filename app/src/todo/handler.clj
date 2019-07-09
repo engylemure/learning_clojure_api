@@ -5,11 +5,12 @@
     [ring.middleware.json :as json]
     [ring.util.response :refer [response]]
     [ring.util.response :refer [status]]
-    [todo.query :refer :all]))
+    [todo.query :refer :all]
+    [clj-time.core :as time]
+    [clj-time.format :as f]
+    ))
 
-(defroutes app-routes  
-  (GET "/" []
-    (response "Hello World"))
+(defroutes todo-routes  
   (GET "/api/todos" []
     (response (get-todos)))
   (GET "/api/todos/:id" [id]
@@ -21,15 +22,9 @@
     )))
   (POST "/api/todos" {:keys [params]}
     (let [{:keys [title description]} params]
-      (response (add-todo title description))))
+      (response (add-todo title description (f/unparse (f/formatters :mysql) (time/now))))))
   (PUT "/api/todos/:id" [id title is_complete]
     (response (update-todo (Integer/parseInt id) title is_complete)))
   (DELETE "/api/todos/:id" [id]
     (response (delete-todo (Integer/parseInt id))))
-  (route/resources "/")
-  (route/not-found "Not Found"))
-
-(def app
-  (-> (handler/api app-routes)
-      (json/wrap-json-params)
-      (json/wrap-json-response)))
+)

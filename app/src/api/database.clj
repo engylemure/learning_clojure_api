@@ -1,4 +1,4 @@
-(ns todo.database
+(ns api.database
   (:require [korma.db :as korma]))
 
 (def db-connection-info 

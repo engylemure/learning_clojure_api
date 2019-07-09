@@ -1,27 +1,27 @@
-(ns todo.query
+(ns user.query
   (:require [api.database]
             [korma.core :refer :all]))
 
 (defentity items)
 
-(defn get-todos []
+(defn get-users []
   (select items))
 
-(defn add-todo [title description created_at]
+(defn add-user [title description created_at]
   (insert items
           (values {:title title :description description :created_at created_at})))
 
-(defn delete-todo [id]
+(defn delete-user [id]
   (delete items
           (where {:id [= id]})))
 
-(defn update-todo [id title is-complete]
+(defn update-user [id title is-complete]
   (update items
           (set-fields {:title title
                        :is_complete is-complete})
           (where {:id [= id]})))
 
-(defn get-todo [id]
+(defn get-user [id]
   (first
     (select items
           (where {:id [= id]}))))
